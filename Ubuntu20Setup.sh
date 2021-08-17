@@ -39,6 +39,9 @@ apt update >>$LOG 2>&1
 apt -y install haveged pollinate >>$LOG 2>&1
 (crontab -l ; echo "@reboot sleep 60 ; /usr/bin/pollinate -r" )| crontab -
 
+INFO="Install Linux Updates" ; DisplayInfo
+apt -y full-upgrade >>$LOG 2>&1
+
 INFO="SSH Server Hardening" ; DisplayInfo
 cp /etc/ssh/sshd_config /etc/ssh/backup.sshd_config
 cp /etc/ssh/moduli /etc/ssh/backup.moduli
@@ -57,9 +60,6 @@ ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" <<<y >>$LOG 2>&1
 
 INFO="Install Useful Linux Packages" ; DisplayInfo
 apt -y install apport apt-transport-https aptitude at build-essential byobu command-not-found curl dnsutils ethtool git htop man ntpdate patch psmisc screen software-properties-common sosreport update-motd update-notifier-common vim zip unzip >>$LOG 2>&1
-
-INFO="Install Linux Updates" ; DisplayInfo
-apt -y full-upgrade >>$LOG 2>&1
 
 INFO="Harden IPv4 Network" ; DisplayInfo
 cat > /etc/sysctl.conf <<EOF
