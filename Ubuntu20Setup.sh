@@ -46,17 +46,20 @@ sed -i '/X11Forwarding/c\X11Forwarding no' /etc/ssh/sshd_config >>$LOG 2>&1
 sed -i 's/^#HostKey \/etc\/ssh\/ssh_host_\(rsa\|ed25519\)_key$/\HostKey \/etc\/ssh\/ssh_host_\1_key/g' /etc/ssh/sshd_config >>$LOG 2>&1
 sed -i 's/^HostKey \/etc\/ssh\/ssh_host_\(dsa\|ecdsa\)_key$/\#HostKey \/etc\/ssh\/ssh_host_\1_key/g' /etc/ssh/sshd_config >>$LOG 2>&1
 echo -e "\n# Restrict key exchange, cipher, and MAC algorithms\nKexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha256\nCiphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr\nMACs hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,umac-128-etm@openssh.com\nHostKeyAlgorithms ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,rsa-sha2-256,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com" > /etc/ssh/sshd_config.d/ssh-audit_hardening.conf
-awk '$5 >= 3071' /etc/ssh/moduli > /etc/ssh/moduli.safe >>$LOG 2>&1
+awk '$5 >= 3071' /etc/ssh/moduli > /etc/ssh/moduli.safe
 mv /etc/ssh/moduli.safe /etc/ssh/moduli
 rm /etc/ssh/ssh_host_* >>$LOG 2>&1
 ssh-keygen -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key -N "" >>$LOG 2>&1
 ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N "" >>$LOG 2>&1
 service ssh restart >>$LOG 2>&1
-ssh-keygen -t rsa -b 4096 -N '' -f ~/.ssh/id_rsa <<<y >>$LOG 2>&1
-ssh-keygen -t ed25519 -N '' -f ~/.ssh/id_ed25519 <<<y >>$LOG 2>&1
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N "" <<<y >>$LOG 2>&1
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" <<<y >>$LOG 2>&1
 
 INFO="Install Useful Linux Packages" ; DisplayInfo
 apt -y install apport apt-transport-https aptitude at build-essential byobu command-not-found curl dnsutils ethtool git htop man ntpdate patch psmisc screen software-properties-common sosreport update-motd update-notifier-common vim zip unzip >>$LOG 2>&1
+
+INFO="Install Linux Updates" ; DisplayInfo
+apt -y full-upgrade >>$LOG 2>&1
 
 INFO="Harden IPv4 Network" ; DisplayInfo
 cat > /etc/sysctl.conf <<EOF
@@ -160,5 +163,5 @@ EOF
 systemctl daemon-reload >>$LOG 2>&1
 
 INFO="New Ubuntu Server Setup completed at $(date)" ; DisplayInfo
-INFO="Check log file $LOG for any errors" ; DisplayInfo
+INFO="${RED}After checking the log file $LOG for any errors, you will need to reboot the system." ; DisplayInfo
 # End
