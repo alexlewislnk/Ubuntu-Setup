@@ -5,7 +5,7 @@
 # server. This script is intended for a new install of Ubuntu Linux 20.04 LTS.
 #
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-LOG=~/UbuntuInitialSetup.log
+LOG=~/$0.log
 RED="$(tput setaf 1)"
 YELLOW="$(tput setaf 3)"
 CYAN="$(tput setaf 6)"
@@ -36,10 +36,13 @@ printf "%s\\t%s\\n" "127.0.0.1" "localhost" > /etc/hosts
 printf "%s\\t%s\\t%s\\n" "$primaryaddr" "$line" "$shortname" >> /etc/hosts
 cat /etc/hosts >>$LOG 2>&1
 
-INFO="Setup Strong Entropy" ; DisplayInfo
+INFO="Update Package Repository"
+export DEBIAN_FRONTEND=noninteractive
 apt update >>$LOG 2>&1
+
+INFO="Install Strong Entropy" ; DisplayInfo
 apt -y install haveged pollinate >>$LOG 2>&1
-(crontab -l ; echo "@reboot sleep 60 ; /usr/bin/pollinate -r" )| crontab -
+(crontab -l 2> $LOG ; echo "@reboot sleep 60 ; /usr/bin/pollinate -r" )| crontab -
 
 INFO="SSH Server Hardening" ; DisplayInfo
 cp /etc/ssh/sshd_config /etc/ssh/backup.sshd_config
@@ -116,7 +119,7 @@ systemctl restart systemd-timesyncd >>$LOG 2>&1
 ntpdate -u time.google.com >>$LOG 2>&1
 
 INFO="Schedule Journal Log Cleanup" ; DisplayInfo
-(crontab -l ; echo "@daily journalctl --vacuum-time=30d --vacuum-size=1G" )| crontab -
+(crontab -l 2> $LOG ; echo "@daily journalctl --vacuum-time=30d --vacuum-size=1G" )| crontab -
 
 INFO="Configure Unattended Security Updates" ; DisplayInfo
 apt -y install unattended-upgrades >>$LOG 2>&1
@@ -162,7 +165,6 @@ EOF
 systemctl daemon-reload >>$LOG 2>&1
 
 INFO="Install Linux Updates" ; DisplayInfo
-DEBIAN_FRONTEND=noninteractive
 apt -y full-upgrade >>$LOG 2>&1
 
 INFO="New Ubuntu Server Setup completed at $(date)" ; DisplayInfo
