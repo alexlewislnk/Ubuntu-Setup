@@ -36,7 +36,7 @@ printf "%s\\t%s\\n" "127.0.0.1" "localhost" > /etc/hosts
 printf "%s\\t%s\\t%s\\n" "$primaryaddr" "$line" "$shortname" >> /etc/hosts
 cat /etc/hosts >>$LOG 2>&1
 
-INFO="Update Package Repository"
+INFO="Update Package Repository" ; DisplayInfo
 export DEBIAN_FRONTEND=noninteractive
 apt update >>$LOG 2>&1
 
