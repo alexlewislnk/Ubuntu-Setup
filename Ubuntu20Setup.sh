@@ -5,7 +5,7 @@
 # server. This script is intended for a new install of Ubuntu Linux 20.04 LTS.
 #
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-LOG=/root/UbuntuInitialSetup.log
+LOG=~/UbuntuInitialSetup.log
 RED="$(tput setaf 1)"
 YELLOW="$(tput setaf 3)"
 CYAN="$(tput setaf 6)"
@@ -22,25 +22,24 @@ INFO="New Ubuntu Server Setup started at $(date)" ; DisplayInfo
 INFO="Configure Hostname" ; DisplayInfo
 printf "${YELLOW}Please enter a fully qualified hostname (e.g.: host.example.com): ${NORMAL}"
 read -r line
+
 INFO="Setting hosname to $line" ; DisplayInfo
 hostnamectl set-hostname $line >>$LOG 2>&1
+shortname=$(echo "$line" | cut -d"." -f1)
+defaultdev=$(ip ro ls|grep default|awk '{print $5}')
+primaryaddr=$(ip -f inet addr show dev "$defaultdev" | grep 'inet ' | awk '{print $2}' | cut -d"/" -f1 | cut -f1)
+INFO="Primary IPv4 Address identified as $primaryaddr" ; DisplayInfo
 
 INFO="Rebuilding hosts file" ; DisplayInfo
-cat > /etc/hosts.new <<EOF
-127.0.0.1  localhost
-`hostname -i`  `hostname -f`  `hostname -s`
-EOF
-cp /etc/hosts /etc/hosts.old >>$LOG 2>&1
-cp /etc/hosts.new /etc/hosts >>$LOG 2>&1
+mv /etc/hosts /etc/hosts.old
+printf "%s\\t%s\\n" "127.0.0.1" "localhost" > /etc/hosts
+printf "%s\\t%s\\t%s\\n" "$address" "$line" "$shortname" >> /etc/hosts
 cat /etc/hosts >>$LOG 2>&1
 
 INFO="Setup Strong Entropy" ; DisplayInfo
 apt update >>$LOG 2>&1
 apt -y install haveged pollinate >>$LOG 2>&1
 (crontab -l ; echo "@reboot sleep 60 ; /usr/bin/pollinate -r" )| crontab -
-
-INFO="Install Linux Updates" ; DisplayInfo
-apt -y full-upgrade >>$LOG 2>&1
 
 INFO="SSH Server Hardening" ; DisplayInfo
 cp /etc/ssh/sshd_config /etc/ssh/backup.sshd_config
@@ -161,6 +160,9 @@ Persistent=true
 WantedBy=timers.target
 EOF
 systemctl daemon-reload >>$LOG 2>&1
+
+INFO="Install Linux Updates" ; DisplayInfo
+apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" full-upgrade >>$LOG 2>&1
 
 INFO="New Ubuntu Server Setup completed at $(date)" ; DisplayInfo
 INFO="${RED}After checking the log file $LOG for any errors, you will need to reboot the system." ; DisplayInfo
