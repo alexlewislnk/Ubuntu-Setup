@@ -42,7 +42,7 @@ apt update >>$LOG 2>&1
 
 INFO="Install Strong Entropy" ; DisplayInfo
 apt -y install haveged pollinate >>$LOG 2>&1
-(crontab -l 2> $LOG ; echo "@reboot sleep 60 ; /usr/bin/pollinate -r" )| crontab -
+(crontab -l 2> $LOG ; echo "@reboot sleep 60 ; /usr/bin/pollinate -r" )| crontab - >>$LOG 2>&1
 
 INFO="SSH Server Hardening" ; DisplayInfo
 cp /etc/ssh/sshd_config /etc/ssh/backup.sshd_config
@@ -119,7 +119,7 @@ systemctl restart systemd-timesyncd >>$LOG 2>&1
 ntpdate -u time.google.com >>$LOG 2>&1
 
 INFO="Schedule Journal Log Cleanup" ; DisplayInfo
-(crontab -l 2> $LOG ; echo "@daily journalctl --vacuum-time=30d --vacuum-size=1G" )| crontab -
+(crontab -l 2> $LOG ; echo "@daily journalctl --vacuum-time=30d --vacuum-size=1G" )| crontab - >>$LOG 2>&1
 
 INFO="Configure Unattended Security Updates" ; DisplayInfo
 apt -y install unattended-upgrades >>$LOG 2>&1
