@@ -162,7 +162,7 @@ EOF
 systemctl daemon-reload >>$LOG 2>&1
 
 INFO="Install Linux Updates" ; DisplayInfo
-apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade >>$LOG 2>&1
+apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" full-upgrade >>$LOG 2>&1
 
 INFO="New Ubuntu Server Setup completed at $(date)" ; DisplayInfo
 INFO="${RED}After checking the log file $LOG for any errors, you will need to reboot the system." ; DisplayInfo
