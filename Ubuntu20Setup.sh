@@ -13,7 +13,7 @@ NORMAL="$(tput sgr0)"
 
 function DisplayInfo { 
 	printf "${CYAN}$INFO${NORMAL}\\n"
-	printf "$INFO\\n" >>$LOG
+	printf "\\n$INFO\\n" >>$LOG
 }
 
 > $LOG
@@ -33,7 +33,7 @@ INFO="Primary IPv4 Address identified as $primaryaddr" ; DisplayInfo
 INFO="Rebuilding hosts file" ; DisplayInfo
 mv /etc/hosts /etc/hosts.old
 printf "%s\\t%s\\n" "127.0.0.1" "localhost" > /etc/hosts
-printf "%s\\t%s\\t%s\\n" "$address" "$line" "$shortname" >> /etc/hosts
+printf "%s\\t%s\\t%s\\n" "$primaryaddr" "$line" "$shortname" >> /etc/hosts
 cat /etc/hosts >>$LOG 2>&1
 
 INFO="Setup Strong Entropy" ; DisplayInfo
@@ -162,7 +162,7 @@ EOF
 systemctl daemon-reload >>$LOG 2>&1
 
 INFO="Install Linux Updates" ; DisplayInfo
-apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" full-upgrade >>$LOG 2>&1
+apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade >>$LOG 2>&1
 
 INFO="New Ubuntu Server Setup completed at $(date)" ; DisplayInfo
 INFO="${RED}After checking the log file $LOG for any errors, you will need to reboot the system." ; DisplayInfo
