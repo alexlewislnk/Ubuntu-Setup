@@ -63,6 +63,28 @@ ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" <<<y >>$LOG 2>&1
 INFO="Install Useful Linux Packages" ; DisplayInfo
 apt -y install apport apt-transport-https aptitude at build-essential byobu command-not-found curl dnsutils ethtool git htop man ntpdate patch psmisc screen software-properties-common sosreport update-motd update-notifier-common vim zip unzip >>$LOG 2>&1
 
+INFO="Create Linux Update Scripts" ; DisplayInfo
+cat > /usr/local/bin/linux-update << EOF
+apt-get -y autoremove --purge
+sync
+apt-get clean
+apt-get autoclean
+apt update
+apt -y full-upgrade
+sync
+update-grub
+echo "Press Enter to reboot or Ctrl-C to abort..."
+read aa
+sync
+reboot
+EOF
+cat > /usr/local/bin/linux-cleanup << EOF
+apt-get -y autoremove --purge
+sync
+update-grub
+EOF
+chmod +rx /usr/local/bin/linux-update /usr/local/bin/linux-cleanup
+
 INFO="Harden IPv4 Network" ; DisplayInfo
 cat > /etc/sysctl.conf <<EOF
 # IP Spoofing protection
