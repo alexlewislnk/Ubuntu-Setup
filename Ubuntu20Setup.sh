@@ -5,7 +5,7 @@
 # server. This script is intended for a new install of Ubuntu Linux 20.04 LTS.
 #
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-LOG=~/$0.log
+LOG=/root/Ubuntu20Setup.log
 RED="$(tput setaf 1)"
 YELLOW="$(tput setaf 3)"
 CYAN="$(tput setaf 6)"
