@@ -190,5 +190,5 @@ INFO="Install Linux Updates" ; DisplayInfo
 apt -y full-upgrade >>$LOG 2>&1
 
 INFO="New Ubuntu Server Setup completed at $(date)" ; DisplayInfo
-INFO="${RED}After checking the log file $LOG for any errors, you will need to reboot the system." ; DisplayInfo
+INFO="${YELLOW}After checking the log file ${RED}$LOG${YELLOW} for any errors, you will need to reboot the system." ; DisplayInfo
 # End
