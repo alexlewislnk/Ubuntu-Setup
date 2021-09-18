@@ -23,7 +23,7 @@ INFO="Configure Hostname" ; DisplayInfo
 printf "${YELLOW}Please enter a fully qualified hostname (e.g.: host.example.com): ${NORMAL}"
 read -r line
 
-INFO="Setting hosname to $line" ; DisplayInfo
+INFO="Setting hostname to $line" ; DisplayInfo
 hostnamectl set-hostname $line >>$LOG 2>&1
 shortname=$(echo "$line" | cut -d"." -f1)
 defaultdev=$(ip ro ls|grep default|awk '{print $5}')
