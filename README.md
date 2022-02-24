@@ -24,6 +24,7 @@ Run the Script
 - Configure NTP server to sync date/time to reliable time server
 - Configure nightly unattended install of security patches
 
+
 ## Optional Steps
 
 **Swap File**
