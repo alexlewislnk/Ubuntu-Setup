@@ -57,7 +57,8 @@ service walinuxagent restart
 
 **LTS Enablement Stack for latest kernel updates**
 ```
-apt -y install --install-recommends linux-virtual-hwe-20.04
+. /etc/lsb-release
+apt -y install --install-recommends linux-virtual-hwe-$DISTRIB_RELEASE
 ```
 
 Reboot and reconnect as root user
