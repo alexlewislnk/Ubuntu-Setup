@@ -59,12 +59,14 @@ service walinuxagent restart
 ```
 . /etc/lsb-release
 apt -y install --install-recommends linux-generic-hwe-$DISTRIB_RELEASE
+apt -y remove linux-virtual-hwe-$DISTRIB_RELEASE
 ```
 
 **LTS Enablement Stack for latest kernel updates - Virtual/VPS Servers**
 ```
 . /etc/lsb-release
 apt -y install --install-recommends linux-virtual-hwe-$DISTRIB_RELEASE
+apt -y remove linux-generic-hwe-$DISTRIB_RELEASE
 ```
 
 Reboot and reconnect as root user
