@@ -39,7 +39,13 @@ If a swap partition was not created by the deployment, create one based on the a
 |13 – 20|4|
  
 ```
-fallocate -l 1G /swapfile
+phymem="$(free -g|awk '/^Mem:/{print $2}')"
+swapsize="1G"
+if   [[ $phymem -gt 12 ]];  then swapsize="4G"
+elif [[ $phymem -gt 6 ]];   then swapsize="3G"
+elif [[ $phymem -gt 2 ]];   then swapsize="2G"
+fi
+fallocate -l $swapsize /swapfile
 chmod 600 /swapfile
 mkswap /swapfile
 swapon /swapfile
