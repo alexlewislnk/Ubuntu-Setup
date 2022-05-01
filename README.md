@@ -1,4 +1,4 @@
-This script is used on a new install of Ubuntu 20.04 LTS to complete the setup and basic security of the OS. 
+This script is used on a new install of Ubuntu 20.04 LTS and 22.04 LTS to complete the setup and basic security of the OS. 
 This should only be run on a freshly provisioned server. Can also be used for virtual and VPS servers.
 
 ## How to Use
