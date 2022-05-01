@@ -55,7 +55,13 @@ sed -i '/ResourceDisk.SwapSizeMB/c\ResourceDisk.SwapSizeMB=4096' /etc/waagent.co
 service walinuxagent restart
 ```
 
-**LTS Enablement Stack for latest kernel updates**
+**LTS Enablement Stack for latest kernel updates - Physical Servers**
+```
+. /etc/lsb-release
+apt -y install --install-recommends linux-generic-hwe-$DISTRIB_RELEASE
+```
+
+**LTS Enablement Stack for latest kernel updates - Virtual/VPS Servers**
 ```
 . /etc/lsb-release
 apt -y install --install-recommends linux-virtual-hwe-$DISTRIB_RELEASE
