@@ -61,18 +61,17 @@ sed -i '/ResourceDisk.SwapSizeMB/c\ResourceDisk.SwapSizeMB=4096' /etc/waagent.co
 service walinuxagent restart
 ```
 
-**LTS Enablement Stack for latest kernel updates - Physical Servers**
+**LTS Enablement Stack for latest kernel updates**
 ```
 . /etc/lsb-release
-apt -y install --install-recommends linux-generic-hwe-$DISTRIB_RELEASE
-apt -y remove linux-virtual-hwe-$DISTRIB_RELEASE
-```
-
-**LTS Enablement Stack for latest kernel updates - Virtual/VPS Servers**
-```
-. /etc/lsb-release
-apt -y install --install-recommends linux-virtual-hwe-$DISTRIB_RELEASE
-apt -y remove linux-generic-hwe-$DISTRIB_RELEASE
+systemd-detect-virt -vq
+if [[ $? = 0 ]]; then 
+	apt -y install --install-recommends linux-generic-hwe-$DISTRIB_RELEASE
+	apt -y remove linux-virtual-hwe-$DISTRIB_RELEASE
+else
+	apt -y install --install-recommends linux-generic-hwe-$DISTRIB_RELEASE
+	apt -y remove linux-virtual-hwe-$DISTRIB_RELEASE
+fi
 ```
 
 Reboot and reconnect as root user
