@@ -66,8 +66,8 @@ service walinuxagent restart
 . /etc/lsb-release
 systemd-detect-virt -vq
 if [[ $? = 0 ]]; then 
-	apt -y install --install-recommends linux-generic-hwe-$DISTRIB_RELEASE
-	apt -y remove linux-virtual-hwe-$DISTRIB_RELEASE
+	apt -y install --install-recommends linux-virtual-hwe-$DISTRIB_RELEASE
+	apt -y remove linux-generic-hwe-$DISTRIB_RELEASE
 else
 	apt -y install --install-recommends linux-generic-hwe-$DISTRIB_RELEASE
 	apt -y remove linux-virtual-hwe-$DISTRIB_RELEASE
