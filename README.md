@@ -63,7 +63,7 @@ service walinuxagent restart
 
 **LTS Enablement Stack for latest kernel updates**
 ```
-. /etc/lsb-release
+source /etc/lsb-release
 systemd-detect-virt -vq
 if [[ $? = 0 ]]; then 
 	apt -y install --install-recommends linux-virtual-hwe-$DISTRIB_RELEASE
