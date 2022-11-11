@@ -65,6 +65,7 @@ apt -y install apport apt-transport-https aptitude at build-essential byobu comm
 
 INFO="Create Linux Update Scripts" ; DisplayInfo
 cat > /usr/local/bin/linux-update << EOF
+export DEBIAN_FRONTEND=noninteractive
 apt-get -y autoremove --purge
 sync
 apt-get clean
@@ -79,6 +80,7 @@ sync
 reboot
 EOF
 cat > /usr/local/bin/linux-cleanup << EOF
+export DEBIAN_FRONTEND=noninteractive
 apt-get -y autoremove --purge
 sync
 update-grub
