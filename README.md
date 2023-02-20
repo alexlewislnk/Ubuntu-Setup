@@ -1,4 +1,4 @@
-This script is used on a new install of Ubuntu 20.04 LTS and 22.04 LTS to complete the setup and basic security of the OS. 
+This script is used on a new install of Ubuntu 22.04 LTS or 20.04 LTS to complete the setup and basic security of the OS. 
 This should only be run on a freshly provisioned server. Can also be used for virtual and VPS servers.
 
 ## How to Use
@@ -64,6 +64,7 @@ service walinuxagent restart
 **LTS Enablement Stack for latest kernel updates**
 ```
 source /etc/lsb-release
+export DEBIAN_FRONTEND=noninteractive
 systemd-detect-virt -vq
 if [[ $? = 0 ]]; then 
 	apt -y install --install-recommends linux-virtual-hwe-$DISTRIB_RELEASE
@@ -81,5 +82,6 @@ reboot
 
 Remove old kernel packages and dependencies
 ```
+export DEBIAN_FRONTEND=noninteractive
 apt -y autoremove ; apt -y purge linux-generic linux-headers-generic linux-image-generic linux-virtual linux-headers-virtual linux-image-virtual ; apt -y autoremove
 ```
