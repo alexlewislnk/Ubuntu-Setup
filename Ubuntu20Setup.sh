@@ -61,7 +61,7 @@ ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N "" <<<y >>$LOG 2>&1
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" <<<y >>$LOG 2>&1
 
 INFO="Install Useful Linux Packages" ; DisplayInfo
-apt -y install apport apt-transport-https aptitude at build-essential byobu command-not-found curl dnsutils ethtool git htop man ntpdate patch psmisc screen software-properties-common sosreport update-motd update-notifier-common vim zip unzip >>$LOG 2>&1
+apt -y install apport apt-transport-https aptitude at build-essential byobu command-not-found curl dnsutils ethtool git htop man net-tools ntpdate patch psmisc screen software-properties-common sosreport update-motd update-notifier-common vim zip unzip >>$LOG 2>&1
 
 INFO="Create Linux Update Scripts" ; DisplayInfo
 cat > /usr/local/bin/linux-update << EOF
