@@ -138,7 +138,7 @@ EOF
 INFO="Configure Time(NTP) Services" ; DisplayInfo
 ln -fs /usr/share/zoneinfo/US/Central /etc/localtime
 dpkg-reconfigure --frontend noninteractive tzdata >>$LOG 2>&1
-sed -i '/^#NTP=/c\NTP=time.google.com' /etc/systemd/timesyncd.conf >>$LOG 2>&1
+sed -i '/^#NTP=/c\NTP=time.cloudflare time.google.com' /etc/systemd/timesyncd.conf >>$LOG 2>&1
 systemctl restart systemd-timesyncd >>$LOG 2>&1
 ntpdate -u time.google.com >>$LOG 2>&1
 
