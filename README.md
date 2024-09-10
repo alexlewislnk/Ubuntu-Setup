@@ -33,10 +33,22 @@ If a swap partition was not created by the deployment, create one based on the a
 
 |Installed RAM (GB)|Swap File (GB)|
 |---|---|
-|2 or less|1|
-|3 – 6|2|
-|7 – 12|3|
-|13 – 20|4|
+|1 or less|1|
+|2 - 4|2|
+|5 - 9|3|
+|10 - 16|4|
+|17 - 25|5|
+|26 - 36|6|
+|37 - 49|7|
+|50 - 64|8|
+|65 - 81|9|
+|82 - 100|10|
+|101 - 121|11|
+|122 - 144|12|
+|145 - 169|13|
+|170 - 196|14|
+|197 - 225|15|
+|226 - 256|16|
  
 ```
 phymem="$(free -g|awk '/^Mem:/{print $2}')"
