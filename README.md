@@ -53,9 +53,21 @@ If a swap partition was not created by the deployment, create one based on the a
 ```
 phymem="$(free -g|awk '/^Mem:/{print $2}')"
 swapsize="1G"
-if   [[ $phymem -gt 12 ]];  then swapsize="4G"
-elif [[ $phymem -gt 6 ]];   then swapsize="3G"
-elif [[ $phymem -gt 2 ]];   then swapsize="2G"
+if   [[ $phymem -gt 225 ]];  then swapsize="16G"
+elif [[ $phymem -gt 196 ]];  then swapsize="15G"
+elif [[ $phymem -gt 169 ]];  then swapsize="14G"
+elif [[ $phymem -gt 144 ]];  then swapsize="13G"
+elif [[ $phymem -gt 121 ]];  then swapsize="12G"
+elif [[ $phymem -gt 100 ]];  then swapsize="11G"
+elif [[ $phymem -gt 81 ]];   then swapsize="10G"
+elif [[ $phymem -gt 64 ]];   then swapsize="9G"
+elif [[ $phymem -gt 49 ]];   then swapsize="8G"
+elif [[ $phymem -gt 36 ]];   then swapsize="7G"
+elif [[ $phymem -gt 25 ]];   then swapsize="6G"
+elif [[ $phymem -gt 16 ]];   then swapsize="5G"
+elif [[ $phymem -gt 9 ]];    then swapsize="4G"
+elif [[ $phymem -gt 4 ]];    then swapsize="3G"
+elif [[ $phymem -gt 1 ]];    then swapsize="2G"
 fi
 fallocate -l $swapsize /swapfile
 chmod 600 /swapfile
