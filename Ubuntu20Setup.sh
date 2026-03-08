@@ -177,6 +177,7 @@ WantedBy=timers.target
 EOF
 rm -rf /etc/systemd/system/apt-daily-upgrade.timer* >>$LOG 2>&1
 cat > /etc/systemd/system/apt-daily-upgrade.timer <<EOF
+[Unit]
 Description=Daily apt upgrade and clean activities
 After=apt-daily.timer
 [Timer]
